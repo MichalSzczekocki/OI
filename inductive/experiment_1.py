@@ -17,6 +17,6 @@ train_loader, test_loader = get_mnist_loaders(64, train_dataset, test_dataset)
 
 print('Starting learning')
 for epoch in range(1, 31):
-    train(model, device, epoch, optimizer, train_loader)
+    train(model, device, train_loader, epoch, optimizer)
     test_acc = test(device, model, test_loader, test_dataset)
     print('Epoch: {:02d}, Test: {:.4f}'.format(epoch, test_acc))

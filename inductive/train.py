@@ -1,18 +1,78 @@
-import torch.nn.functional as F
+from datetime import time
+import matplotlib.pyplot as plt
+import torch
+from torch import save
+import copy
 
-def train(model, device, epoch, optimizer, train_loader):
+def validation_accuracy(model, validation_loader, cost_function, device):
+    total = 0
+    correct = 0
+    results = []
+
+    with(torch.set_grad_enabled(False)):
+        for batch in validation_loader:
+            batch.to(device)
+            x = model(batch)
+            results.append(cost_function(x, batch.y))
+
+            value, pred = torch.max(x, 1)
+            total += float(x.size(0))
+            correct += pred.eq(batch.y).sum().item()
+
+    return sum(results) / len(results), correct * 100. / total
+
+def store(model, file_name):
+    save(copy.deepcopy(model).state_dict(), file_name)
+
+def train(model, device, train_loader, validation_loader, epochs, optimizer, cost_function):
+    time_start = time.time()
+
+    accuracies = []
+    training_losses = []
+    validation_losses = []
+    max_accuracy = 0
+    
     model.train()
+    for epoch in range(epochs):
+        losses = []
+        for batch in train_loader:
+            batch.to(device)
+            pred = model(batch)
+            loss = cost_function(pred, batch.y)
+            losses.append(loss)
 
-    if epoch == 16:
-        for param_group in optimizer.param_groups:
-            param_group['lr'] = 0.001
+            loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
 
-    if epoch == 26:
-        for param_group in optimizer.param_groups:
-            param_group['lr'] = 0.0001
+        training_loss = float(sum(losses) / len(losses))
+        training_losses.append(training_loss)
 
-    for data in train_loader:
-        data = data.to(device)
-        optimizer.zero_grad()
-        F.nll_loss(model(data), data.y).backward()
-        optimizer.step()
+        validation_loss, accuracy = validation_accuracy(model, validation_loader, cost_function, device)
+        validation_losses.append(validation_loss.cpu())
+        accuracies.append(accuracy)
+
+        if accuracy > max_accuracy:
+            best_model = model
+            max_accuracy = accuracy
+
+        print(
+            f'Epoch: {epoch + 1}, Accuracy: {accuracy}%, Training loss: {training_loss}, Validation loss: {validation_loss}')
+
+    time_end = time.time()
+    print(f'Training complete. Time elapsed: {time_end - time_start}s')
+
+    print(f'Saving best model with accuracy: {max_accuracy}')
+    store(best_model, f'model_acc_{max_accuracy}_ep_{epochs}')
+
+    plt.plot(accuracies, label='Accuracy')
+    plt.legend()
+    plt.show()
+
+    plt.cla()
+    plt.plot(training_losses, label='Training losses')
+    plt.plot(validation_losses, label='Validation losses')
+    plt.legend()
+    plt.show()
+
+    return best_model
