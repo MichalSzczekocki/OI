@@ -4,13 +4,8 @@ import torch_geometric.transforms as T
 from torch_geometric.utils import normalized_cut
 from torch_geometric.nn import (SplineConv, graclus, max_pool, max_pool_x,
                                 global_mean_pool)
-from data import get_mnist_data
 
 transform = T.Cartesian(cat=False)
-# Train datset, test datset
-d, _ = get_mnist_data()
-print('NUM FEATUERS')
-print(d.num_features)
 
 def normalized_cut_2d(edge_index, pos):
     row, col = edge_index
@@ -20,7 +15,8 @@ def normalized_cut_2d(edge_index, pos):
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.conv1 = SplineConv(d.num_features, 32, dim=2, kernel_size=5)
+        # 1 is a number of features in the MNIST dataset (check usung train_dataset.n_features)
+        self.conv1 = SplineConv(1, 32, dim=2, kernel_size=5)
         self.conv2 = SplineConv(32, 64, dim=2, kernel_size=5)
         self.fc1 = torch.nn.Linear(64, 128)
         self.fc2 = torch.nn.Linear(128, d.num_classes)
