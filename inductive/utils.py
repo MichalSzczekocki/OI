@@ -11,9 +11,11 @@ def make_confussion_matrix(predicted, actual):
     for row in range(len(conf_matrix)):
         cell_text.append(conf_matrix.iloc[row])
 
+    plt.clf()
+    fig = plt.gcf()
     plt.table(cellText=cell_text, colLabels=conf_matrix.columns, rowLabels=labels, loc='center')
     plt.axis('off')
-    plt.show()
+    fig.savefig('confusion_matrix')
 
 def get_device():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

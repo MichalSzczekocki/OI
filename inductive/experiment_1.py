@@ -12,7 +12,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 cost_function =  nn.CrossEntropyLoss()
 train_dataset, test_dataset = get_mnist_data()
 train_loader, test_loader, validation_loader = get_mnist_loaders(64, train_dataset, test_dataset)
-epochs = 5
+epochs = 1
 
 print('Starting learning')
 model = train(model, device, train_loader, validation_loader, epochs, optimizer, cost_function)
