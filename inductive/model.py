@@ -19,7 +19,8 @@ class Net(torch.nn.Module):
         self.conv1 = SplineConv(1, 32, dim=2, kernel_size=5)
         self.conv2 = SplineConv(32, 64, dim=2, kernel_size=5)
         self.fc1 = torch.nn.Linear(64, 128)
-        self.fc2 = torch.nn.Linear(128, d.num_classes)
+        # 10 is a number of classes in the MNSIT dataset
+        self.fc2 = torch.nn.Linear(128, 10)
 
     def forward(self, data):
         data.x = F.elu(self.conv1(data.x, data.edge_index, data.edge_attr))

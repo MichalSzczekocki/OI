@@ -11,6 +11,9 @@ def get_mnist_data():
     return train_dataset, test_dataset
 
 def get_mnist_loaders(batch_size, train_dataset, test_dataset):
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    size = len(train_dataset)
+    ratio = 0.7
+    train_loader = DataLoader(train_dataset[:int(size * ratio)], batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size)
-    return train_loader, test_loader
+    validation_dataloader = DataLoader(train_dataset[int(size * ratio):], batch_size=batch_size, shuffle=True)
+    return train_loader, test_loader, validation_dataloader

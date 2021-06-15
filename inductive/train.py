@@ -1,4 +1,4 @@
-from datetime import time
+import time
 import matplotlib.pyplot as plt
 import torch
 from torch import save
@@ -9,7 +9,7 @@ def validation_accuracy(model, validation_loader, cost_function, device):
     correct = 0
     results = []
 
-    with(torch.set_grad_enabled(False)):
+    with torch.set_grad_enabled(False):
         for batch in validation_loader:
             batch.to(device)
             x = model(batch)
@@ -65,13 +65,12 @@ def train(model, device, train_loader, validation_loader, epochs, optimizer, cos
     print(f'Saving best model with accuracy: {max_accuracy}')
     store(best_model, f'model_acc_{max_accuracy}_ep_{epochs}')
 
-    plt.plot(accuracies, label='Accuracy')
+    plt.plot(accuracies, label='Dokładność')
     plt.legend()
-    plt.show()
-
+  
     plt.cla()
-    plt.plot(training_losses, label='Training losses')
-    plt.plot(validation_losses, label='Validation losses')
+    plt.plot(training_losses, label='Strata zbioru treningowego')
+    plt.plot(validation_losses, label='Starta zbiorty walidacyjnego')
     plt.legend()
     plt.show()
 
