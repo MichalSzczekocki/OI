@@ -1,10 +1,22 @@
 import torch
-from torch_geometric.data import Data
+from utils import get_device
+from model import Net
+from test import test
+from train import train
+from data import get_mnist_data, get_mnist_loaders
 
-edge_index = torch.tensor([[0, 1, 1, 2],
-                           [1, 0, 2, 1]], dtype=torch.long)
-x = torch.tensor([[-1], [0], [1]], dtype=torch.float)
+device = get_device()
+print('model')
+model = Net().to(device)
+print('optimizer')
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+print('dataset')
+train_dataset, test_dataset = get_mnist_data()
+print('loader')
+train_loader, test_loader = get_mnist_loaders(64, train_dataset, test_dataset)
 
-data = Data(x=x, edge_index=edge_index)
-
-print(data)
+print('Starting learning')
+for epoch in range(1, 31):
+    train(model, device, epoch, optimizer, train_loader)
+    test_acc = test(device, model, test_loader, test_dataset)
+    print('Epoch: {:02d}, Test: {:.4f}'.format(epoch, test_acc))
