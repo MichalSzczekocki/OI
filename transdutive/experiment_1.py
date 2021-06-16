@@ -9,9 +9,9 @@ from torch import nn
 dataset, data = get_planetoid_data()    
 device = get_device()
 model = Net(dataset).to(device)
-optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
-cost_function =  nn.CrossEntropyLoss()
-epochs = 100
+optimizer = torch.optim.RMSprop(model.parameters(), lr=0.01)
+cost_function =  nn.NLLLoss()
+epochs = 150
 
 print('Starting learning')
 model = train(model, device, data, epochs, optimizer, cost_function)
