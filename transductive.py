@@ -11,6 +11,12 @@ from torch_geometric.datasets import Planetoid
 from utils.io.save_to_file import save_to_file
 import time
 
+DATA_DIR = 'data/Planetoid'
+MODEL_PATH = 'models'
+EPOCHS = 150
+LEARNING_RATE = 0.01
+WEIGHT_DECAY = 5e-4
+
 class GCN(torch.nn.Module):
     def __init__(self, dataset):
         super(GCN, self).__init__()
@@ -38,14 +44,6 @@ def get_device():
 
     print(f'Device used: {device}')
     return device
-
-
-DATA_DIR = 'data/Planetoid'
-
-MODEL_PATH = 'models'
-EPOCHS = 150
-LEARNING_RATE = 0.01
-WEIGHT_DECAY = 5e-4
 
 def test(model, data, device):
     model.eval()
@@ -152,14 +150,14 @@ def save_to_file(model, filename):
     except FileNotFoundError:
         print("Couldn't find file")
 
-# DATASET
-dataset = Planetoid(DATA_DIR, "Cora")
+def main():
+    # DATASET
+    dataset = Planetoid(DATA_DIR, "Cora")
+    data = dataset[0]
+    device = get_device()
+    model = GCN(dataset).to(device)
+    model = train(model, device=device, data=data)
+    test(model, data=data, device=device)
 
-data = dataset[0]
-
-device = get_device()
-model = GCN(dataset).to(device)
-
-model = train(model, device=device, data=data)
-
-test(model, data=data, device=device)
+if __name__ == '__main__':
+    main()
