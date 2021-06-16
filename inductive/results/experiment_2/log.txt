@@ -1,0 +1,38 @@
+[DEVICE] Using cuda
+Starting learning
+Epoch: 1, Accuracy: 81.02777777777777%, Training loss: 1.033005714416504, Validation loss: 0.5738778710365295
+Epoch: 2, Accuracy: 85.73333333333333%, Training loss: 0.5294862985610962, Validation loss: 0.43838953971862793
+Epoch: 3, Accuracy: 85.67777777777778%, Training loss: 0.44176870584487915, Validation loss: 0.4451591670513153
+Epoch: 4, Accuracy: 88.61666666666666%, Training loss: 0.40844249725341797, Validation loss: 0.35157448053359985
+Epoch: 5, Accuracy: 88.21111111111111%, Training loss: 0.378492146730423, Validation loss: 0.37026911973953247
+Epoch: 6, Accuracy: 88.71666666666667%, Training loss: 0.3625185489654541, Validation loss: 0.3726111054420471
+Epoch: 7, Accuracy: 88.17222222222222%, Training loss: 0.34871533513069153, Validation loss: 0.38820573687553406
+Epoch: 8, Accuracy: 89.87222222222222%, Training loss: 0.3378867208957672, Validation loss: 0.3248811364173889
+Epoch: 9, Accuracy: 90.92777777777778%, Training loss: 0.33213505148887634, Validation loss: 0.28631800413131714
+Epoch: 10, Accuracy: 90.67777777777778%, Training loss: 0.32146215438842773, Validation loss: 0.2994534373283386
+Epoch: 11, Accuracy: 90.43888888888888%, Training loss: 0.31443607807159424, Validation loss: 0.3197847604751587
+Epoch: 12, Accuracy: 89.87222222222222%, Training loss: 0.3120315670967102, Validation loss: 0.3387840986251831
+Epoch: 13, Accuracy: 90.11111111111111%, Training loss: 0.3039196729660034, Validation loss: 0.32092317938804626
+Epoch: 14, Accuracy: 90.7611111111111%, Training loss: 0.3008544445037842, Validation loss: 0.30662065744400024
+Epoch: 15, Accuracy: 89.96666666666667%, Training loss: 0.2962205111980438, Validation loss: 0.35106366872787476
+Epoch: 16, Accuracy: 91.11666666666666%, Training loss: 0.28468096256256104, Validation loss: 0.3054162859916687
+Epoch: 17, Accuracy: 92.23333333333333%, Training loss: 0.2942173182964325, Validation loss: 0.2637220621109009
+Epoch: 18, Accuracy: 92.6%, Training loss: 0.2823657691478729, Validation loss: 0.25243839621543884
+Epoch: 19, Accuracy: 90.85%, Training loss: 0.27611982822418213, Validation loss: 0.3014453649520874
+Epoch: 20, Accuracy: 91.61666666666666%, Training loss: 0.28486499190330505, Validation loss: 0.29637232422828674
+Epoch: 21, Accuracy: 90.67777777777778%, Training loss: 0.27999797463417053, Validation loss: 0.3235236704349518
+Epoch: 22, Accuracy: 92.45%, Training loss: 0.27900850772857666, Validation loss: 0.2750089168548584
+Epoch: 23, Accuracy: 92.17777777777778%, Training loss: 0.2767835855484009, Validation loss: 0.2747558057308197
+Epoch: 24, Accuracy: 92.57777777777778%, Training loss: 0.2730156183242798, Validation loss: 0.2713465690612793
+Epoch: 25, Accuracy: 89.43888888888888%, Training loss: 0.28125065565109253, Validation loss: 0.3823073208332062
+Epoch: 26, Accuracy: 92.91666666666667%, Training loss: 0.2698745131492615, Validation loss: 0.2520922124385834
+Epoch: 27, Accuracy: 91.0%, Training loss: 0.2732142508029938, Validation loss: 0.32801124453544617
+Epoch: 28, Accuracy: 92.54444444444445%, Training loss: 0.2650505006313324, Validation loss: 0.27824875712394714
+Epoch: 29, Accuracy: 92.7611111111111%, Training loss: 0.267657071352005, Validation loss: 0.25720715522766113
+Epoch: 30, Accuracy: 91.56111111111112%, Training loss: 0.27161625027656555, Validation loss: 0.2887880802154541
+Training complete. Time elapsed: 2111.0527069568634s
+Saving best model with accuracy: 92.91666666666667
+Starting testing
+Test accuracy: 0.9429
+Bye, have a lovely coding day!
+
