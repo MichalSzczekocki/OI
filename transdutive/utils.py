@@ -6,7 +6,7 @@ import torch
 import itertools
 
 def make_confussion_matrix(predicted, actual):
-    labels = np.arange(0, 10)
+    labels = np.arange(0, 7)
     conf_matrix = pd.DataFrame(confusion_matrix(actual, predicted, labels=labels))
     cell_text = []
     for row in range(len(conf_matrix)):

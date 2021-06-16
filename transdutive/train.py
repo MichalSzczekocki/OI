@@ -31,8 +31,8 @@ def train(model, device, dataset, epochs, optimizer, cost_function):
     for epoch in range(epochs):
 
         dataset.to(device)
-        pred = model(dataset)[dataset.train_mask]
-        loss = cost_function(pred, dataset.y[dataset.train_mask])
+        pred = model(dataset)
+        loss = cost_function(pred, dataset.y)
 
         loss.backward()
         optimizer.step()

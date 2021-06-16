@@ -1,11 +1,18 @@
+from utils import make_confussion_matrix
+
 def test(device, model, data,):
     model.eval()
+    correct = 0
+    predicted = []
+    actual = []
 
     data = data.to(device)
-    _, pred = model(data).max(dim=1)
-    correct = int(pred[data.test_mask].eq(data.y[data.test_mask]).sum().item())
-    acc = correct / int(data.test_mask.sum())
+    pred = model(data).max(1)[1]
+    correct += pred.eq(data.y).sum().item()
 
-    print(f'Test accuracy: {acc}')
+    predicted.extend(list(pred.cpu().numpy()))
+    actual.extend(list(data.y.cpu().numpy()))
+
+    print(f'Test accuracy: {correct / len(data.y)}')
+    make_confussion_matrix(predicted, actual)
     
-    # TODO: Dodaj macierz pomyłek
