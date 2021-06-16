@@ -1,4 +1,4 @@
-def test(device, model, data):
+def test(device, model, data,):
     model.eval()
 
     data = data.to(device)
@@ -7,5 +7,5 @@ def test(device, model, data):
     acc = correct / int(data.test_mask.sum())
 
     print(f'Test accuracy: {acc}')
-
+    
     # TODO: Dodaj macierz pomyłek

@@ -4,21 +4,18 @@ import torch
 from torch import save
 import copy
 
-def validation_accuracy(model, data, cost_function, device):
+def calculate_accuracy(model, data, device):
     total = 0
     correct = 0
-    results = []
 
     with torch.set_grad_enabled(False):
         data.to(device)
-        x = model(data)[data.val_mask]
-        results.append(cost_function(x, data.y[data.val_mask]))
-
-        value, pred = torch.max(x, 1)
+        x = model(data)
+        _, pred = torch.max(x, 1)
         total += float(x.size(0))
-        correct += pred.eq(data.y[data.val_mask]).sum().item()
+        correct += pred.eq(data.y).sum().item()
 
-    return sum(results) / len(results), correct * 100. / total
+    return correct * 100. / total
 
 def store(model, file_name):
     save(copy.deepcopy(model).state_dict(), file_name)
@@ -28,7 +25,6 @@ def train(model, device, dataset, epochs, optimizer, cost_function):
 
     accuracies = []
     training_losses = []
-    validation_losses = []
     max_accuracy = 0
     
     model.train()
@@ -45,8 +41,7 @@ def train(model, device, dataset, epochs, optimizer, cost_function):
         training_loss = float(loss)
         training_losses.append(training_loss)
 
-        validation_loss, accuracy = validation_accuracy(model, dataset, cost_function, device)
-        validation_losses.append(validation_loss.cpu())
+        accuracy = calculate_accuracy(model, dataset, device)
         accuracies.append(accuracy)
 
         if accuracy > max_accuracy:
@@ -54,7 +49,7 @@ def train(model, device, dataset, epochs, optimizer, cost_function):
             max_accuracy = accuracy
 
         print(
-            f'Epoch: {epoch + 1}, Accuracy: {accuracy}%, Training loss: {training_loss}, Validation loss: {validation_loss}')
+            f'Epoch: {epoch + 1}, Accuracy: {accuracy}%, Training loss: {training_loss}')
 
     time_end = time.time()
     print(f'Training complete. Time elapsed: {time_end - time_start}s')
@@ -68,7 +63,6 @@ def train(model, device, dataset, epochs, optimizer, cost_function):
 
     plt.clf()
     plt.plot(training_losses, label='Strata zbioru treningowego')
-    plt.plot(validation_losses, label='Starta zbiorty walidacyjnego')
     plt.legend()
     plt.savefig('loss.png')
 

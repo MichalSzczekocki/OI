@@ -1,13 +1,19 @@
 import torch
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
+import torch
+import torch.nn.functional as F
+import torch_geometric.transforms as T
 
-class GCN(torch.nn.Module):
+transform = T.Cartesian(cat=False)
+
+class Net(torch.nn.Module):
     def __init__(self, dataset):
-        super(GCN, self).__init__()
-
+        super(Net, self).__init__()
         self.conv1 = GCNConv(dataset.num_node_features, 32)
-        self.conv2 = GCNConv(32, dataset.num_classes)
+        self.conv2 = GCNConv(32, 64)
+        self.fc1 = torch.nn.Linear(64, 128)
+        self.fc2 = torch.nn.Linear(128, dataset.num_classes)
 
     def forward(self, data):
         x, edge_index = data.x, data.edge_index
@@ -17,4 +23,6 @@ class GCN(torch.nn.Module):
         x = F.dropout(x, training=self.training)
         x = self.conv2(x, edge_index)
 
-        return F.log_softmax(x, dim=1)
+        x = F.elu(self.fc1(x))
+        x = F.dropout(x, training=self.training)
+        return F.log_softmax(self.fc2(x), dim=1)
