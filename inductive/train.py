@@ -65,17 +65,14 @@ def train(model, device, train_loader, validation_loader, epochs, optimizer, cos
     print(f'Saving best model with accuracy: {max_accuracy}')
     store(best_model, f'model_acc_{max_accuracy}_ep_{epochs}')
 
-    plt.cla()
-    fig = plt.gcf()
-    plt.legend()
     plt.plot(accuracies, label='Dokładność')
-    fig.savefig('model_accuracy')
-
-    plt.cla()
-    fig = plt.gcf()
     plt.legend()
+    plt.savefig('accuracy.png')
+
+    plt.clf()
     plt.plot(training_losses, label='Strata zbioru treningowego')
     plt.plot(validation_losses, label='Starta zbiorty walidacyjnego')
-    fig.savefig('loss_functions')
+    plt.legend()
+    plt.savefig('loss.png')
 
     return best_model

@@ -3,6 +3,7 @@ from sklearn.metrics import confusion_matrix
 import pandas as pd
 import matplotlib.pyplot as plt
 import torch
+import itertools
 
 def make_confussion_matrix(predicted, actual):
     labels = np.arange(0, 10)
@@ -12,10 +13,9 @@ def make_confussion_matrix(predicted, actual):
         cell_text.append(conf_matrix.iloc[row])
 
     plt.clf()
-    fig = plt.gcf()
     plt.table(cellText=cell_text, colLabels=conf_matrix.columns, rowLabels=labels, loc='center')
     plt.axis('off')
-    fig.savefig('confusion_matrix')
+    plt.savefig('confusion_matrix.png')
 
 def get_device():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
