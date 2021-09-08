@@ -9,6 +9,8 @@ def validation_accuracy(model, validation_loader, cost_function, device):
     correct = 0
     results = []
 
+    model.eval()
+
     with torch.set_grad_enabled(False):
         for batch in validation_loader:
             batch.to(device)
@@ -32,9 +34,12 @@ def train(model, device, train_loader, validation_loader, epochs, optimizer, cos
     validation_losses = []
     max_accuracy = 0
     
-    model.train()
     for epoch in range(epochs):
+        model.train()
+
         losses = []
+        correct = 0
+        total = 0
         for batch in train_loader:
             batch.to(device)
             pred = model(batch)
@@ -45,19 +50,28 @@ def train(model, device, train_loader, validation_loader, epochs, optimizer, cos
             optimizer.step()
             optimizer.zero_grad()
 
+            _, labels = torch.max(pred, 1)
+            correct += labels.eq(batch.y).sum().item()
+            total += len(batch.y)
+
+        print(f'Elements in the training dataset {total}')
+        training_accuracy = correct * 100 / total
+        accuracies.append(training_accuracy)
+
         training_loss = float(sum(losses) / len(losses))
         training_losses.append(training_loss)
 
-        validation_loss, accuracy = validation_accuracy(model, validation_loader, cost_function, device)
-        validation_losses.append(validation_loss.cpu())
-        accuracies.append(accuracy)
 
-        if accuracy > max_accuracy:
+        validation_loss, validation_acc = validation_accuracy(model, validation_loader, cost_function, device)
+        validation_losses.append(validation_loss.cpu())
+        
+
+        if validation_acc > max_accuracy:
             best_model = model
-            max_accuracy = accuracy
+            max_accuracy = validation_accuracy
 
         print(
-            f'Epoch: {epoch + 1}, Accuracy: {accuracy}%, Training loss: {training_loss}, Validation loss: {validation_loss}')
+            f'Epoch: {epoch + 1}, Training accuracy {training_accuracy} Validataion Accuracy: {validation_acc}%, Training loss: {training_loss}, Validation loss: {validation_loss}')
 
     time_end = time.time()
     print(f'Training complete. Time elapsed: {time_end - time_start}s')
