@@ -67,7 +67,7 @@ def train(model, device, train_loader, validation_loader, epochs, optimizer, cos
 
         if validation_acc > max_accuracy:
             best_model = model
-            max_accuracy = validation_accuracy
+            max_accuracy = validation_acc
 
         print(
             f'Epoch: {epoch + 1}, Training accuracy {training_accuracy} Validataion Accuracy: {validation_acc}%, Training loss: {training_loss}, Validation loss: {validation_loss}')
