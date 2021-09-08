@@ -54,7 +54,6 @@ def train(model, device, train_loader, validation_loader, epochs, optimizer, cos
             correct += labels.eq(batch.y).sum().item()
             total += len(batch.y)
 
-        print(f'Elements in the training dataset {total}')
         training_accuracy = correct * 100 / total
         accuracies.append(training_accuracy)
 
